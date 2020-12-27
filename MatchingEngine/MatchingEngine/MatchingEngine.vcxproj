@@ -141,9 +141,13 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MatchingEngine.cpp" />
+    <ClCompile Include="MatchingEngineI.cpp" />
+    <ClCompile Include="MessageProcessor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MatchingEngine.h" />
+    <ClInclude Include="MatchingEngineI.h" />
+    <ClInclude Include="MessageProcessor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

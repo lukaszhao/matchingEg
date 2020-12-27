@@ -11,15 +11,9 @@
 #include <numeric>
 #include <stdexcept>
 
+#include "MatchingEngineI.h"
+
 namespace matchingengine {
-
-enum class OrderType { IOC, GFD };
-
-enum class OrderSide { BUY, SELL };
-
-using Price = int;
-using Quantity = int;
-using OrderId = std::string;
 
 class Order {
 public:
@@ -49,14 +43,49 @@ public:
     /// returns a string that prints out OrderSide
     /// </summary>
     static std::string OrderSideToString(OrderSide orderSide);
-
-    friend std::ostream& operator<<(std::ostream& os, const Order& order);
 };
 
 
 
 
-class MatchingEngine {
+class MatchingEngine : public MatchingEngineI {
+
+public:
+
+    /// <summary>
+    /// execute message PRINT
+    /// </summary>
+    void print() const;
+
+    /// <summary>
+    /// process order, trade order against queued orders, update queued orders,
+    /// and add the remaining untraded part to engine
+    /// </summary>
+    void processOrder(OrderType orderType,
+        OrderSide orderSide,
+        Price price,
+        Quantity quantity,
+        const OrderId& orderId);
+
+    /// <summary>
+    /// purge mathing engine, delete all queued orders
+    /// </summary>
+    void purgeEngine();
+
+    /// <summary>
+    /// cancel order, remove order from engine; if orderId doesn't exist, no op
+    /// </summary>
+    void cancelOrder(const OrderId& orderId);
+
+    /// <summary>
+    /// modify order; if orderId doesn't exist, no op; if order type is IOC, no op
+    /// </summary>
+    void modifyOrder(const OrderId& orderId,
+        OrderSide newOrderSide,
+        Price newPrice,
+        Quantity newQuantity);
+
+
 private:
     using OrdersList = std::list<std::shared_ptr<Order> >;
     using PriceMap = std::map<Price, OrdersList, std::greater<Price> >;
@@ -93,19 +122,6 @@ private:
     /// </summary>
     void eraseOrderFromPriceMap(PriceMap& priceMap, Price price, const OrderId& orderId);
 
-
-public:
-
-    /// <summary>
-    /// execute message PRINT
-    /// </summary>
-    void print() const;
-
-    /// <summary>
-    /// inspect engine data, for testing purpose
-    /// </summary>
-    void inspect() const;
-
     /// <summary>
     /// function returns true if price, quantity, and orderId are valid, o.w. false
     /// </summary>
@@ -130,30 +146,6 @@ public:
         std::shared_ptr<Order> newOrder,
         Quantity tradeQuantity,
         std::ostream& os) const;
-
-    void processOrder(OrderType orderType,
-        OrderSide orderSide,
-        Price price,
-        Quantity quantity,
-        const OrderId& orderId);
-
-    /// <summary>
-    /// purge mathing engine, delete all queued orders
-    /// </summary>
-    void purgeEngine();
-
-    /// <summary>
-    /// cancel order, remove order from engine; if orderId doesn't exist, no op
-    /// </summary>
-    void cancelOrder(const OrderId& orderId);
-
-    /// <summary>
-    /// modify order; if orderId doesn't exist, no op; if order type is IOC, no op
-    /// </summary>
-    void modifyOrder(const OrderId& orderId,
-        OrderSide newOrderSide,
-        Price newPrice,
-        Quantity newQuantity);
 };
 
 } // namespace matchingengine

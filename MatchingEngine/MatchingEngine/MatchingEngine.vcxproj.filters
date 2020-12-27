@@ -21,9 +21,21 @@
     <ClCompile Include="MatchingEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MessageProcessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MatchingEngineI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MatchingEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageProcessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MatchingEngineI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

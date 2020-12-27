@@ -3,17 +3,6 @@
 namespace matchingengine {
 
 
-std::ostream& operator<<(std::ostream& os, const Order& order)
-{
-    os << "[ m_orderType = " << Order::OrderTypeToString(order.m_orderType)
-        << " m_orderSide = " << Order::OrderSideToString(order.m_orderSide)
-        << " m_price = " << order.m_price
-        << " m_quantity = " << order.m_quantity
-        << " m_orderId = " << order.m_orderId
-        << " ]";
-    return os;
-}
-
 void MatchingEngine::insertIntoPriceMap(PriceMap& priceMap, std::shared_ptr<Order> order)
 {
     if (priceMap.find(order->m_price) != priceMap.end()) {
@@ -365,38 +354,7 @@ void MatchingEngine::modifyOrder(const OrderId& orderId,
 }
 
 
-void MatchingEngine::inspect() const
-{
-    std::cout << "\n ----- inspect -----\n";
-    std::cout << "m_orderIdToOrder = [\n";
-    for (const auto& entry : m_orderIdToOrder) {
-        std::cout << "  orderId = " << entry.first
-            << ", order = " << *(entry.second) << "\n";
-    }
-    std::cout << "]\n";
 
-    std::cout << "\nm_priceMapBuy = [\n";
-    for (const auto& ordersPerPrice : m_priceMapBuy) {
-        std::cout << "  price = " << ordersPerPrice.first
-            << ", orders = [\n";
-        for (const auto& order : ordersPerPrice.second) {
-            std::cout << "    " << *order << "\n";
-        }
-        std::cout << "  ]\n";
-    }
-    std::cout << "]\n";
-
-    std::cout << "\nm_priceMapSell = [\n";
-    for (const auto& ordersPerPrice : m_priceMapSell) {
-        std::cout << "  price = " << ordersPerPrice.first
-            << ", orders = [\n";
-        for (const auto& order : ordersPerPrice.second) {
-            std::cout << "    " << *order << "\n";
-        }
-        std::cout << "  ]\n";
-    }
-    std::cout << "]\n";
-}
 
 
 } // namespace matchingengine
