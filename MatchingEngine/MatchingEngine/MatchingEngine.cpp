@@ -219,7 +219,7 @@ void MatchingEngine::processOrder(OrderType orderType,
     Price price,
     Quantity quantity,
     const OrderId& orderId)
-{
+{   
     // validate order
     if (!isValidOrder(price, quantity, orderId)) {
         return;
